@@ -1,22 +1,22 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Cloudformation template for Spark with Mozilla Telemetry",
+  "Description": "Cloudformation template for RTLambda",
   "Parameters": {
-    "TelemetryAnalysisCodeBucket": {
+    "RTLambdaAnalysisCodeBucket": {
       "Type": "String"
     },
-    "TelemetryAnalysisSparkEMRBucket": {
+    "RTLambdaAnalysisSparkEMRBucket": {
       "Type": "String"
     },
-    "TelemetryAnalysisPublicBucket": {
+    "RTLambdaAnalysisPublicBucket": {
       "Type": "String"
     },
-    "TelemetryAnalysisPrivateBucket": {
+    "RTLambdaAnalysisPrivateBucket": {
       "Type": "String"
     }
   },
   "Resources": {
-    "TelemetrySparkRole": {
+    "RTLambdaSparkRole": {
       "Type": "AWS::IAM::Role",
       "Properties": {
         "AssumeRolePolicyDocument": {
@@ -36,7 +36,7 @@
         },
         "Policies": [
           {
-            "PolicyName": "telemetry-spark-emr",
+            "PolicyName": "rtlambda-spark-emr",
             "PolicyDocument": {
               "Version": "2012-10-17",
               "Statement": [
@@ -47,12 +47,7 @@
                     "s3:GetBucketLocation"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-data",
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-metadata",
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-analysis",
-                    "arn:aws:s3:::mozillametricsemrscripts",
-                    "arn:aws:s3:::mozillametricsfhrsamples",
-                    "arn:aws:s3:::mozilla-metrics"
+                    "arn:aws:s3:::rtlambda"
                   ]
                 },
                 {
@@ -61,12 +56,7 @@
                     "S3:Get*"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-data/*",
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-metadata/*",
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-analysis/*",
-                    "arn:aws:s3:::mozillametricsemrscripts/*",
-                    "arn:aws:s3:::mozillametricsfhrsamples/*",
-                    "arn:aws:s3:::mozilla-metrics/*"
+                    "arn:aws:s3:::rtlambda/*"
                   ]
                 },
                 {
@@ -115,7 +105,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisCodeBucket"
+                            "Ref": "RTLambdaAnalysisCodeBucket"
                           }
                         ]
                       ]
@@ -126,7 +116,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisCodeBucket"
+                            "Ref": "RTLambdaAnalysisCodeBucket"
                           },
                           "/*"
                         ]
@@ -138,7 +128,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisSparkEMRBucket"
+                            "Ref": "RTLambdaAnalysisSparkEMRBucket"
                           }
                         ]
                       ]
@@ -149,7 +139,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisSparkEMRBucket"
+                            "Ref": "RTLambdaAnalysisSparkEMRBucket"
                           },
                           "/*"
                         ]
@@ -159,8 +149,8 @@
                     "arn:aws:s3:::support.elasticmapreduce/*",
                     "arn:aws:s3:::elasticmapreduce",
                     "arn:aws:s3:::elasticmapreduce/*",
-                    "arn:aws:s3:::us-west-2.elasticmapreduce",
-                    "arn:aws:s3:::us-west-2.elasticmapreduce/*"
+                    "arn:aws:s3:::us-east-1.elasticmapreduce",
+                    "arn:aws:s3:::us-east-1.elasticmapreduce/*"
                   ]
                 },
                 {
@@ -183,8 +173,8 @@
                     "s3:ListMultipartUploadParts"
                   ],
                   "Resource": [
-                    "arn:aws:s3:::telemetry-published-v2",
-                    "arn:aws:s3:::telemetry-published-v2/*"
+                    "arn:aws:s3:::rtlambda-published",
+                    "arn:aws:s3:::rtlambda-published/*"
                   ]
                 },
                 {
@@ -204,7 +194,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisPublicBucket"
+                            "Ref": "RTLambdaAnalysisPublicBucket"
                           }
                         ]
                       ]
@@ -215,7 +205,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisPublicBucket"
+                            "Ref": "RTLambdaAnalysisPublicBucket"
                           },
                           "/*"
                         ]
@@ -227,7 +217,7 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisPrivateBucket"
+                            "Ref": "RTLambdaAnalysisPrivateBucket"
                           }
                         ]
                       ]
@@ -238,86 +228,16 @@
                         [
                           "arn:aws:s3:::",
                           {
-                            "Ref": "TelemetryAnalysisPrivateBucket"
+                            "Ref": "RTLambdaAnalysisPrivateBucket"
                           },
                           "/*"
                         ]
                       ]
                     },
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-analysis",
-                    "arn:aws:s3:::net-mozaws-prod-us-west-2-pipeline-analysis/*",
-                    "arn:aws:s3:::net-mozaws-prod-metrics-data",
-                    "arn:aws:s3:::net-mozaws-prod-metrics-data/*",
-                    "arn:aws:s3:::mozilla-metrics",
-                    "arn:aws:s3:::mozilla-metrics/*"
-                  ]
-                },
-                {
-                  "Sid": "Stmt1406755842000",
-                  "Effect": "Allow",
-                  "Action": [
-                    "ses:SendEmail",
-                    "ses:SendRawEmail"
-                  ],
-                  "Resource": [
-                    "*"
-                  ]
-                },
-                {
-                  "Resource": [
-                    "arn:aws:s3:::telemetry-parquet"
-                  ],
-                  "Action": [
-                    "*"
-                  ],
-                  "Effect": "Allow"
-                },
-                {
-                  "Resource": [
-                    "arn:aws:s3:::telemetry-parquet/*"
-                  ],
-                  "Action": [
-                    "S3:*"
-                  ],
-                  "Effect": "Allow"
-                },
-                {
-                  "Resource": [
-                    "arn:aws:s3:::telemetry-test-bucket"
-                  ],
-                  "Action": [
-                    "*"
-                  ],
-                  "Effect": "Allow"
-                },
-                {
-                  "Resource": [
-                    "arn:aws:s3:::telemetry-test-bucket/*"
-                  ],
-                  "Action": [
-                    "S3:*"
-                  ],
-                  "Effect": "Allow"
-                },
-                {
-                  "Resource": [
-                    "arn:aws:s3:::telemetry-airflow"
-                  ],
-                  "Action": [
-                    "*"
-                  ],
-                  "Effect": "Allow"
-                },
-                {
-                  "Resource": [
-                    "arn:aws:s3:::telemetry-airflow/*"
-                  ],
-                  "Action": [
-                    "S3:*"
-                  ],
-                  "Effect": "Allow"
+                    "arn:aws:s3:::rtlambda",
+                    "arn:aws:s3:::rtlambda-published/*"                  ]
                 }
-              ]
+                              ]
             }
           }
         ]
@@ -329,7 +249,7 @@
         "Path": "/",
         "Roles": [
           {
-            "Ref": "TelemetrySparkRole"
+            "Ref": "RTLambdaSparkRole"
           }
         ]
       }
@@ -339,7 +259,7 @@
     "InstanceProfile": {
       "Description": "Spark instance profile",
       "Value": {
-        "Ref": "TelemetrySparkInstanceProfile"
+        "Ref": "RTLambdaSparkInstanceProfile"
       }
     }
   }

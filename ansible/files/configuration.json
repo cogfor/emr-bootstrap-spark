@@ -17,7 +17,9 @@
       "spark.driver.maxResultSize": "4g",
       "spark.akka.frameSize": "512",
       "spark.serializer": "org.apache.spark.serializer.KryoSerializer",
-      "spark.sql.sources.partitionColumnTypeInference.enabled": "false"
+      "spark.sql.sources.partitionColumnTypeInference.enabled": "false",
+      "spark.shuffle.service.enabled": "true",
+      "spark.dynamicAllocation.enabled": "true"
     }
   }, {
     "Classification": "spark-log4j",
